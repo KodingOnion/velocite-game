@@ -473,6 +473,10 @@
             document.getElementById('submit-container').classList.remove('hidden');
             document.getElementById('submit-message').classList.add('hidden');
             
+            // Fix: Re-enable the submit button for new game sessions
+            submitScoreBtn.disabled = false;
+            submitScoreBtn.innerText = "UPLOAD DATA";
+
             lastTime=Date.now();
             animate();
         }
