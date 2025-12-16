@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Velocité | Online Leaderboard</title>
+    <title>Velocité | Glitch Update</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -19,7 +19,6 @@
         }
         canvas { display: block; }
         
-        /* Custom Scrollbar for Leaderboard */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; }
@@ -56,64 +55,42 @@
         .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
         .glass-panel { background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); }
         
-        /* New Cyber Input Styles - Resized */
         .cyber-input {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #333;
-            border-left: 4px solid #0ff; /* Neon Accent */
-            color: #fff;
-            font-family: 'Space Mono', monospace;
-            font-size: 1.1rem; /* Smaller font */
-            padding: 0.75rem; /* Smaller padding */
-            width: 100%;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            outline: none;
-            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.8); border: 1px solid #333; border-left: 4px solid #0ff;
+            color: #fff; font-family: 'Space Mono', monospace; font-size: 1.1rem; padding: 0.75rem;
+            width: 100%; text-align: center; text-transform: uppercase; letter-spacing: 2px;
+            outline: none; transition: all 0.3s ease;
         }
-        .cyber-input:focus {
-            border-color: #0ff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
-            background: rgba(0, 20, 20, 0.95);
-        }
-        .cyber-input::placeholder {
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 0.9rem;
-        }
+        .cyber-input:focus { border-color: #0ff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.15); background: rgba(0, 20, 20, 0.95); }
+        .cyber-input::placeholder { color: rgba(255, 255, 255, 0.2); font-size: 0.9rem; }
 
-        /* New Cyber Button Styles - Resized */
         .cyber-btn {
-            background: transparent;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            color: #0ff;
-            padding: 0.75rem; /* Smaller padding */
-            width: 100%;
-            font-family: 'Space Mono', monospace;
-            font-weight: bold;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: transparent; border: 1px solid rgba(0, 255, 255, 0.3); color: #0ff;
+            padding: 0.75rem; width: 100%; font-family: 'Space Mono', monospace; font-weight: bold;
+            font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
         }
-        .cyber-btn:hover {
-            background: #0ff;
-            color: #000;
-            box-shadow: 0 0 20px #0ff;
+        .cyber-btn:hover { background: #0ff; color: #000; box-shadow: 0 0 20px #0ff; }
+        .cyber-btn:disabled { opacity: 0.5; cursor: not-allowed; border-color: #555; color: #888; }
+
+        /* Mute Button */
+        #mute-btn {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            width: 32px; height: 32px; cursor: pointer; pointer-events: auto;
+            opacity: 0.6; transition: opacity 0.2s; z-index: 50;
         }
-        .cyber-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            border-color: #555;
-            color: #888;
-        }
+        #mute-btn:hover { opacity: 1; }
     </style>
 </head>
 <body>
 
     <div id="cursor-guide"></div>
     <canvas id="gameCanvas"></canvas>
+
+    <!-- Mute Toggle -->
+    <div id="mute-btn">
+        <svg id="icon-sound-on" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        <svg id="icon-sound-off" class="hidden" viewBox="0 0 24 24" fill="white"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+    </div>
 
     <div id="ui-layer">
         <!-- Top HUD -->
@@ -123,7 +100,7 @@
                 <div class="text-white/30 text-xs tracking-widest uppercase">Points</div>
             </div>
             
-            <div class="flex flex-col items-end">
+            <div class="flex flex-col items-end pr-10"> <!-- Added padding-right for mute btn -->
                 <div id="energy-label">ENTROPY STABILITY</div>
                 <div id="energy-container">
                     <div id="energy-fill"></div>
@@ -138,6 +115,7 @@
                 <span class="text-cyan-400">Blue Shards</span> restore energy.<br>
                 <span class="text-yellow-400">Gold Anomalies</span> give big points.<br>
                 <span class="text-green-400">Green Orbs</span> grant <span class="text-green-400 font-bold">INVINCIBILITY</span>.<br>
+                <span class="text-white/30 mt-2 block text-[10px]">Controls: Mouse/Touch to Move • 'P' to Pause</span>
             </p>
             <div class="btn-group">
                 <button id="start-btn" class="px-8 py-3 border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 font-bold uppercase tracking-widest text-sm pointer-events-auto glass-panel">
@@ -147,6 +125,14 @@
                     Leaderboard
                 </button>
             </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-100 hidden pointer-events-auto z-40 bg-black/60 backdrop-blur-sm">
+            <h2 class="text-4xl text-white font-bold tracking-widest mb-8 neon-text">PAUSED</h2>
+            <button id="resume-btn" class="px-8 py-3 border border-white text-white hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm pointer-events-auto">
+                Resume
+            </button>
         </div>
 
         <!-- Leaderboard Screen -->
@@ -164,7 +150,6 @@
         <div id="game-over-screen" class="absolute inset-0 flex flex-col items-center justify-center text-center transition-opacity duration-300 hidden bg-black/80 backdrop-blur-sm pointer-events-auto px-4">
             <h2 class="text-4xl md:text-6xl font-bold text-red-500 mb-4 tracking-tighter neon-text">SYSTEM HALTED</h2>
             
-            <!-- Score Card Panel (Resized to max-w-xs and p-6) -->
             <div class="bg-black/80 border border-white/10 p-6 mb-6 flex flex-col items-center max-w-xs w-full backdrop-blur-md shadow-2xl">
                 <div class="text-white/40 text-xs tracking-[0.2em] uppercase mb-2">Final Efficiency</div>
                 <div id="final-score" class="text-5xl font-bold text-white mb-8 neon-text">0</div>
@@ -194,7 +179,7 @@
         <!-- Bottom Stats -->
         <div class="flex justify-between w-full text-white/20 text-[10px] md:text-xs tracking-widest uppercase">
              <div id="fps-display">FPS: 60</div>
-             <div>Ver 2.6 // Polished</div>
+             <div>Ver 2.7 // Glitch</div>
         </div>
     </div>
 
@@ -204,10 +189,6 @@
         import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        // --- FIREBASE CONFIGURATION ---
-        // 1. Create a Firebase Project at https://console.firebase.google.com/
-        // 2. Add a Web App
-        // 3. Copy the "firebaseConfig" object and PASTE IT BELOW to replace the empty object.
         const userConfig = {
             apiKey: "AIzaSyAHBdv8lDgu1vS14ds6i5NnNRNetC5N6JA",
             authDomain: "velocite-game.firebaseapp.com",
@@ -217,12 +198,9 @@
             appId: "1:216861102462:web:57a00a9bda0db3f129a32f"
         };
 
-        // Internal AI Environment Logic (Ignore this block, it's for the preview to work)
         const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : userConfig;
         const appId = (typeof __app_id !== 'undefined') ? __app_id : 'default-app';
-        // End Internal Logic
 
-        // Init Firebase
         let db, auth;
         let isFirebaseReady = false;
 
@@ -235,92 +213,43 @@
                     console.log("Network: Connected");
                     isFirebaseReady = true;
                 }).catch(e => console.error("Auth Failed", e));
-            } else {
-                console.log("Firebase config missing. Leaderboard disabled.");
             }
-        } catch (e) {
-            console.error("Firebase Init Error", e);
-        }
+        } catch (e) { console.error("Firebase Init Error", e); }
 
-        // Leaderboard Functions
         window.submitScore = async (name, score) => {
             if (!isFirebaseReady || !name) return;
             try {
-                // Using specific path for AI preview, generic 'scores' for user export
-                const path = (typeof __app_id !== 'undefined') 
-                    ? `artifacts/${appId}/public/data/leaderboard` 
-                    : 'scores';
-                
-                await addDoc(collection(db, path), {
-                    name: name.toUpperCase(),
-                    score: score,
-                    timestamp: serverTimestamp()
-                });
+                const path = (typeof __app_id !== 'undefined') ? `artifacts/${appId}/public/data/leaderboard` : 'scores';
+                await addDoc(collection(db, path), { name: name.toUpperCase(), score: score, timestamp: serverTimestamp() });
                 return true;
-            } catch (e) {
-                console.error("Upload failed", e);
-                return false;
-            }
+            } catch (e) { return false; }
         };
 
         window.fetchLeaderboard = async () => {
             const list = document.getElementById('leaderboard-list');
             list.innerHTML = '<div class="text-white/30 text-center animate-pulse">DOWNLOADING...</div>';
-            
-            if (!isFirebaseReady) {
-                list.innerHTML = '<div class="text-red-500 text-center">NETWORK OFFLINE<br>Config Missing</div>';
-                return;
-            }
-
+            if (!isFirebaseReady) { list.innerHTML = '<div class="text-red-500 text-center">NETWORK OFFLINE</div>'; return; }
             try {
-                const path = (typeof __app_id !== 'undefined') 
-                    ? `artifacts/${appId}/public/data/leaderboard` 
-                    : 'scores';
-                
-                // Note: For large production apps, use orderBy in query. 
-                // Here we fetch and sort in JS to comply with simple constraints.
+                const path = (typeof __app_id !== 'undefined') ? `artifacts/${appId}/public/data/leaderboard` : 'scores';
                 const q = collection(db, path); 
                 const querySnapshot = await getDocs(q);
-                
                 let scores = [];
-                querySnapshot.forEach((doc) => {
-                    scores.push(doc.data());
-                });
-
-                // Sort Descending
+                querySnapshot.forEach((doc) => scores.push(doc.data()));
                 scores.sort((a, b) => b.score - a.score);
-                scores = scores.slice(0, 50); // Top 50
-
-                if (scores.length === 0) {
-                    list.innerHTML = '<div class="text-white/30 text-center">NO DATA FOUND</div>';
-                    return;
-                }
-
-                let html = '<table class="w-full text-white/80">';
-                html += '<tr class="text-cyan-400/50 border-b border-white/10"><th class="text-left pb-2">#</th><th class="text-left pb-2">ID</th><th class="text-right pb-2">PTS</th></tr>';
+                scores = scores.slice(0, 50);
+                if (scores.length === 0) { list.innerHTML = '<div class="text-white/30 text-center">NO DATA</div>'; return; }
+                let html = '<table class="w-full text-white/80"><tr class="text-cyan-400/50 border-b border-white/10"><th class="text-left pb-2">#</th><th class="text-left pb-2">ID</th><th class="text-right pb-2">PTS</th></tr>';
                 scores.forEach((s, i) => {
                     const color = i === 0 ? 'text-yellow-400' : (i < 3 ? 'text-cyan-200' : 'text-white/60');
-                    html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                        <td class="py-2 ${color}">${i+1}</td>
-                        <td class="py-2 ${color}">${s.name || 'UNKNOWN'}</td>
-                        <td class="py-2 text-right font-bold ${color}">${s.score.toLocaleString()}</td>
-                    </tr>`;
+                    html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors"><td class="py-2 ${color}">${i+1}</td><td class="py-2 ${color}">${s.name || 'UNKNOWN'}</td><td class="py-2 text-right font-bold ${color}">${s.score.toLocaleString()}</td></tr>`;
                 });
-                html += '</table>';
-                list.innerHTML = html;
-
-            } catch (e) {
-                console.error("Fetch failed", e);
-                list.innerHTML = '<div class="text-red-500 text-center">CONNECTION ERROR</div>';
-            }
+                html += '</table>'; list.innerHTML = html;
+            } catch (e) { list.innerHTML = '<div class="text-red-500 text-center">ERROR</div>'; }
         };
-
     </script>
 
     <!-- Main Game Logic -->
     <script>
-        // ... (Game engine code follows) ...
-        // Re-declaring essentials that interact with HTML
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d', { alpha: false });
         const cursorGuide = document.getElementById('cursor-guide');
@@ -328,10 +257,14 @@
         const fpsDisplay = document.getElementById('fps-display');
         const startScreen = document.getElementById('start-screen');
         const gameOverScreen = document.getElementById('game-over-screen');
+        const pauseScreen = document.getElementById('pause-screen');
         const finalScoreDisplay = document.getElementById('final-score');
         const energyFill = document.getElementById('energy-fill');
         const energyLabel = document.getElementById('energy-label');
         const leaderboardScreen = document.getElementById('leaderboard-screen');
+        const muteBtn = document.getElementById('mute-btn');
+        const iconSoundOn = document.getElementById('icon-sound-on');
+        const iconSoundOff = document.getElementById('icon-sound-off');
         
         // Buttons
         const startBtn = document.getElementById('start-btn');
@@ -340,24 +273,35 @@
         const leaderboardBtn = document.getElementById('leaderboard-btn');
         const closeLeaderboardBtn = document.getElementById('close-leaderboard-btn');
         const submitScoreBtn = document.getElementById('submit-score-btn');
+        const resumeBtn = document.getElementById('resume-btn');
         const playerNameInput = document.getElementById('player-name');
 
+        // State
         let isPlaying = false;
+        let isPaused = false;
+        let isMuted = false;
         let animationId;
         let lastTime = 0;
         let width, height;
         let score = 0;
         let energy = 100;
         let difficultyMultiplier = 1;
+        let shake = 0;
+        let aberration = 0; // Chromatic aberration intensity
+        let accumulator = 0;
+        const TIME_STEP = 1/60;
         
-        // --- Input Handling ---
+        // Input
         const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        const virtualMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 }; // For relative touch
+        let lastTouchX = 0, lastTouchY = 0;
         
-        // --- Audio & Haptics (Copied from previous version) ---
+        // Audio
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const Sound = {
             playTone: (freq, type, duration, vol=0.1) => {
-                if (audioCtx.state === 'suspended') audioCtx.resume();
+                if (isMuted || audioCtx.state === 'suspended') { if(!isMuted) audioCtx.resume(); else return; }
+                if (audioCtx.state === 'suspended') return;
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
@@ -374,7 +318,7 @@
             start: () => { Sound.playTone(440, 'triangle', 0.5, 0.1); }
         };
         const Haptics = {
-            vibrate: (p) => { if("vibrate" in navigator) navigator.vibrate(p); },
+            vibrate: (p) => { if(!isMuted && "vibrate" in navigator) navigator.vibrate(p); },
             collect: () => Haptics.vibrate(5),
             rareCollect: () => Haptics.vibrate([10,20,10]),
             damage: () => Haptics.vibrate(200),
@@ -382,7 +326,7 @@
             surgeKill: () => Haptics.vibrate(40)
         };
 
-        // --- Game Entities ---
+        // Entities
         class Vector { constructor(x,y){this.x=x;this.y=y;}}
         
         class Particle {
@@ -394,10 +338,6 @@
             draw(ctx){ctx.save();ctx.globalAlpha=Math.max(0,this.alpha);ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,6.28);ctx.fill();ctx.restore();}
         }
 
-        class Entity {
-             // Base class logic handled in specific classes for simplicity
-        }
-
         class Player {
             constructor() {
                 this.pos = new Vector(width/2, height/2);
@@ -406,17 +346,36 @@
             update(dt) {
                 if(!this.active) return;
                 if(this.surgeTime > 0) this.surgeTime -= dt;
-                let dx = mouse.x - this.pos.x; let dy = mouse.y - this.pos.y;
-                let speed = this.surgeTime > 0 ? 0.22 : 0.15; // Speed consts inline
+                
+                // LERP towards target (virtualMouse for touch, mouse for desktop)
+                let target = isTouchDevice ? virtualMouse : mouse;
+                
+                let dx = target.x - this.pos.x; 
+                let dy = target.y - this.pos.y;
+                let speed = this.surgeTime > 0 ? 0.22 : 0.15;
+                
                 this.pos.x += dx * speed; this.pos.y += dy * speed;
                 this.trail.push({x:this.pos.x, y:this.pos.y});
                 if(this.trail.length > 15) this.trail.shift();
+                
+                // Bounds
+                if(this.pos.x < 0) this.pos.x=0; if(this.pos.x > width) this.pos.x=width;
+                if(this.pos.y < 0) this.pos.y=0; if(this.pos.y > height) this.pos.y=height;
             }
             draw(ctx) {
                 if(!this.active) return;
                 const isSurged = this.surgeTime > 0;
                 const color = isSurged ? '#39ff14' : (energy<30?'#ff3232':'#0ff');
                 
+                // Chromatic Aberration Draw
+                if (aberration > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.5;
+                    ctx.fillStyle = '#f00'; ctx.beginPath(); ctx.arc(this.pos.x - 3, this.pos.y, this.radius, 0, 6.28); ctx.fill();
+                    ctx.fillStyle = '#0ff'; ctx.beginPath(); ctx.arc(this.pos.x + 3, this.pos.y, this.radius, 0, 6.28); ctx.fill();
+                    ctx.restore();
+                }
+
                 if(this.trail.length>1) {
                     ctx.beginPath(); ctx.moveTo(this.trail[0].x, this.trail[0].y);
                     for(let i=1; i<this.trail.length; i++) ctx.lineTo(this.trail[i].x, this.trail[i].y);
@@ -430,24 +389,73 @@
             }
         }
 
-        // --- Collections ---
         let player, enemies=[], particles=[], shards=[], powerups=[], anomalies=[], grid;
+        let isTouchDevice = false;
 
-        // --- Initialization & Loop ---
         function init() {
             window.addEventListener('resize', resize);
-            const updateMouse = (x,y) => { mouse.x=x; mouse.y=y; cursorGuide.style.left=x+'px'; cursorGuide.style.top=y+'px'; };
-            window.addEventListener('mousemove', e => updateMouse(e.clientX, e.clientY));
-            window.addEventListener('touchmove', e => { e.preventDefault(); updateMouse(e.touches[0].clientX, e.touches[0].clientY); }, {passive:false});
-            window.addEventListener('touchstart', e => { updateMouse(e.touches[0].clientX, e.touches[0].clientY); if(audioCtx.state==='suspended') audioCtx.resume(); }, {passive:false});
+            
+            // Mouse
+            window.addEventListener('mousemove', e => { 
+                mouse.x=e.clientX; mouse.y=e.clientY; 
+                if(!isTouchDevice) {
+                    cursorGuide.style.left=e.clientX+'px'; cursorGuide.style.top=e.clientY+'px';
+                }
+            });
 
-            // Button Listeners
+            // Relative Touch Logic
+            const handleTouchStart = (e) => {
+                isTouchDevice = true;
+                cursorGuide.style.display = 'none'; // Hide cursor guide on touch
+                if(audioCtx.state==='suspended') audioCtx.resume();
+                lastTouchX = e.touches[0].clientX;
+                lastTouchY = e.touches[0].clientY;
+                // Init virtual mouse at player pos to prevent jumps if needed, or center
+                if(!isPlaying) { virtualMouse.x = width/2; virtualMouse.y = height/2; }
+            };
+
+            const handleTouchMove = (e) => {
+                e.preventDefault();
+                const tx = e.touches[0].clientX;
+                const ty = e.touches[0].clientY;
+                const dx = tx - lastTouchX;
+                const dy = ty - lastTouchY;
+                
+                virtualMouse.x += dx * 1.5; // Sensitivity
+                virtualMouse.y += dy * 1.5;
+                
+                // Clamp Virtual Mouse
+                if(virtualMouse.x < 0) virtualMouse.x = 0; if(virtualMouse.x > width) virtualMouse.x = width;
+                if(virtualMouse.y < 0) virtualMouse.y = 0; if(virtualMouse.y > height) virtualMouse.y = height;
+
+                lastTouchX = tx;
+                lastTouchY = ty;
+            };
+
+            window.addEventListener('touchstart', handleTouchStart, {passive:false});
+            window.addEventListener('touchmove', handleTouchMove, {passive:false});
+
+            // Pause Keys
+            window.addEventListener('keydown', (e) => {
+                if((e.key === 'Escape' || e.key.toLowerCase() === 'p') && isPlaying && !gameOverScreen.classList.contains('visible')) {
+                    togglePause();
+                }
+            });
+
+            // UI Listeners
             startBtn.onclick = startGame;
             restartBtn.onclick = startGame;
             menuBtn.onclick = goToMenu;
             leaderboardBtn.onclick = showLeaderboard;
             closeLeaderboardBtn.onclick = hideLeaderboard;
             submitScoreBtn.onclick = handleScoreSubmit;
+            resumeBtn.onclick = togglePause;
+            
+            muteBtn.onclick = () => {
+                isMuted = !isMuted;
+                if(isMuted) { iconSoundOn.classList.add('hidden'); iconSoundOff.classList.remove('hidden'); }
+                else { iconSoundOn.classList.remove('hidden'); iconSoundOff.classList.add('hidden'); if(audioCtx.state === 'suspended') audioCtx.resume(); }
+            };
 
             resize();
             ctx.fillStyle='#050505'; ctx.fillRect(0,0,width,height);
@@ -455,25 +463,38 @@
 
         function resize() { width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; }
 
+        function togglePause() {
+            isPaused = !isPaused;
+            if(isPaused) {
+                pauseScreen.classList.remove('hidden');
+                cancelAnimationFrame(animationId);
+            } else {
+                pauseScreen.classList.add('hidden');
+                lastTime = Date.now();
+                animate();
+            }
+        }
+
         function startGame() {
             if(isPlaying) return;
-            if(audioCtx.state==='suspended') audioCtx.resume();
             Sound.start();
 
-            isPlaying=true; enemies=[]; particles=[]; shards=[]; powerups=[]; anomalies=[];
+            isPlaying=true; isPaused=false; enemies=[]; particles=[]; shards=[]; powerups=[]; anomalies=[];
             score=0; energy=100; player = new Player(); grid = new Grid(50);
+            shake = 0; aberration = 0; accumulator = 0;
             
+            if(isTouchDevice) { virtualMouse.x = width/2; virtualMouse.y = height/2; player.pos.x = width/2; player.pos.y = height/2; }
+
             for(let i=0; i<3; i++) shards.push(new Shard());
 
             startScreen.classList.add('hidden');
             gameOverScreen.classList.add('hidden');
             leaderboardScreen.classList.add('hidden');
+            pauseScreen.classList.add('hidden');
             
             scoreDisplay.innerText="0";
             document.getElementById('submit-container').classList.remove('hidden');
             document.getElementById('submit-message').classList.add('hidden');
-            
-            // Fix: Re-enable the submit button for new game sessions
             submitScoreBtn.disabled = false;
             submitScoreBtn.innerText = "UPLOAD DATA";
 
@@ -482,14 +503,11 @@
         }
 
         function goToMenu() {
-            isPlaying=false; cancelAnimationFrame(animationId);
-            startScreen.classList.remove('hidden');
-            startScreen.classList.add('visible');
-            gameOverScreen.classList.add('hidden');
-            gameOverScreen.classList.remove('visible');
+            isPlaying=false; isPaused=false; cancelAnimationFrame(animationId);
+            startScreen.classList.remove('hidden'); startScreen.classList.add('visible');
+            gameOverScreen.classList.add('hidden'); gameOverScreen.classList.remove('visible');
+            pauseScreen.classList.add('hidden');
             ctx.fillStyle='#050505'; ctx.fillRect(0,0,width,height);
-            
-            // --- FIX: Reset Score & Energy UI ---
             scoreDisplay.innerText = "0";
             energyFill.style.width = "100%";
             energyFill.style.backgroundColor = '#0ff';
@@ -498,46 +516,37 @@
             energyLabel.style.color = "#0ff";
         }
 
-        function showLeaderboard() {
-            leaderboardScreen.classList.remove('hidden');
-            if(window.fetchLeaderboard) window.fetchLeaderboard();
-        }
-
-        function hideLeaderboard() {
-            leaderboardScreen.classList.add('hidden');
-        }
+        function showLeaderboard() { leaderboardScreen.classList.remove('hidden'); if(window.fetchLeaderboard) window.fetchLeaderboard(); }
+        function hideLeaderboard() { leaderboardScreen.classList.add('hidden'); }
 
         async function handleScoreSubmit() {
             const name = playerNameInput.value.trim();
             if(!name) return;
-            
-            submitScoreBtn.innerText = "UPLOADING...";
-            submitScoreBtn.disabled = true;
+            submitScoreBtn.innerText = "UPLOADING..."; submitScoreBtn.disabled = true;
             const success = await window.submitScore(name, score);
-            
             if(success) {
                 document.getElementById('submit-container').classList.add('hidden');
                 document.getElementById('submit-message').classList.remove('hidden');
                 submitScoreBtn.innerText = "UPLOAD SCORE"; 
-            } else {
-                submitScoreBtn.innerText = "ERROR - TRY AGAIN";
-                submitScoreBtn.disabled = false;
-            }
+            } else { submitScoreBtn.innerText = "ERROR - TRY AGAIN"; submitScoreBtn.disabled = false; }
         }
 
         function gameOver(reason) {
             isPlaying = false; player.active = false;
             Sound.hit(); Haptics.damage();
+            shake = 20; aberration = 20; // Big shake on death
             createExplosion(player.pos.x, player.pos.y, '#fff', 50);
             createExplosion(player.pos.x, player.pos.y, '#0ff', 20);
             
+            // Draw one last frame with shake
+            drawGame();
+
             setTimeout(() => {
                 gameOverScreen.classList.remove('hidden');
                 finalScoreDisplay.innerText = score.toLocaleString();
             }, 800);
         }
 
-        // --- Simplified Entities for brevity (Logic same as previous) ---
         class Shard {
             constructor(){this.x=Math.random()*(width-40)+20;this.y=Math.random()*(height-40)+20;this.size=6;this.angle=Math.random()*6;this.life=0;}
             update(){this.life+=0.05;this.angle+=0.02;}
@@ -563,8 +572,14 @@
 
         class Enemy {
             constructor(){
-                if(Math.random()<0.5){this.x=Math.random()<0.5?-50:width+50;this.y=Math.random()*height;}
-                else{this.x=Math.random()*width;this.y=Math.random()<0.5?-50:height+50;}
+                // Safe spawn logic: Ensure dist from player > 200
+                let safe = false;
+                while(!safe && player) {
+                    if(Math.random()<0.5){this.x=Math.random()<0.5?-50:width+50;this.y=Math.random()*height;}
+                    else{this.x=Math.random()*width;this.y=Math.random()<0.5?-50:height+50;}
+                    if(Math.hypot(this.x-player.pos.x, this.y-player.pos.y) > 200) safe=true;
+                }
+                
                 this.type=Math.random();this.angle=0;this.size=14;
                 if(this.type<0.4){this.color='#ff0055';let a=Math.atan2(Math.random()*height-this.y,Math.random()*width-this.x);this.vx=Math.cos(a)*4;this.vy=Math.sin(a)*4;}
                 else if(this.type<0.7){this.color='#ff9900';this.vx=0;this.vy=0;this.speed=2.5;}
@@ -577,29 +592,57 @@
                 this.x+=this.vx;this.y+=this.vy;this.angle=Math.atan2(this.vy,this.vx);}
                 else{this.tick+=0.05;this.x+=this.vx+Math.cos(this.tick)*2.5;this.y+=this.vy+Math.sin(this.tick)*2.5;this.angle+=0.02;}
             }
-            draw(ctx){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.angle);ctx.shadowBlur=10;ctx.shadowColor=this.color;ctx.strokeStyle=this.color;ctx.lineWidth=2;
-            if(this.color=='#ff0055'){ctx.beginPath();ctx.moveTo(14,0);ctx.lineTo(-7,7);ctx.lineTo(-7,-7);ctx.stroke();}
-            else if(this.color=='#ff9900'){ctx.beginPath();ctx.arc(0,0,10,0,6.28);ctx.moveTo(0,-14);ctx.lineTo(0,14);ctx.moveTo(-14,0);ctx.lineTo(14,0);ctx.stroke();}
-            else{ctx.strokeRect(-7,-7,14,14);}ctx.restore();}
+            draw(ctx){
+                ctx.save();
+                ctx.translate(this.x,this.y);ctx.rotate(this.angle);ctx.shadowBlur=10;ctx.shadowColor=this.color;ctx.strokeStyle=this.color;ctx.lineWidth=2;
+                
+                // Chromatic Aberration on Enemies
+                if (aberration > 0) {
+                    ctx.save(); ctx.globalAlpha=0.5; ctx.translate(3,0); ctx.strokeStyle='#0ff'; 
+                    if(this.color=='#ff0055'){ctx.beginPath();ctx.moveTo(14,0);ctx.lineTo(-7,7);ctx.lineTo(-7,-7);ctx.stroke();}
+                    else if(this.color=='#ff9900'){ctx.beginPath();ctx.arc(0,0,10,0,6.28);ctx.stroke();} 
+                    else {ctx.strokeRect(-7,-7,14,14);}
+                    ctx.restore();
+                }
+
+                if(this.color=='#ff0055'){ctx.beginPath();ctx.moveTo(14,0);ctx.lineTo(-7,7);ctx.lineTo(-7,-7);ctx.stroke();}
+                else if(this.color=='#ff9900'){ctx.beginPath();ctx.arc(0,0,10,0,6.28);ctx.moveTo(0,-14);ctx.lineTo(0,14);ctx.moveTo(-14,0);ctx.lineTo(14,0);ctx.stroke();}
+                else{ctx.strokeRect(-7,-7,14,14);}
+                ctx.restore();
+            }
         }
 
         class Grid {
-            constructor(s){this.s=s;}
-            draw(ctx,p){ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;ctx.beginPath();
-            let ox=-p.x*0.05,oy=-p.y*0.05;
-            for(let x=ox%this.s;x<width;x+=this.s){ctx.moveTo(x,0);ctx.lineTo(x,height);}
-            for(let y=oy%this.s;y<height;y+=this.s){ctx.moveTo(0,y);ctx.lineTo(width,y);}
-            ctx.stroke();}
+            constructor(s){this.s=s; this.time=0;}
+            draw(ctx,p){
+                this.time += 0.02;
+                ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;ctx.beginPath();
+                let ox=-p.x*0.05,oy=-p.y*0.05;
+                
+                // Dynamic Background: Warp lines based on time and shake
+                const warp = Math.sin(this.time) * 10 + shake;
+
+                for(let x=ox%this.s;x<width;x+=this.s){
+                    ctx.moveTo(x,0);
+                    // Draw wavy vertical line
+                    for(let y=0; y<height; y+=50) {
+                        ctx.lineTo(x + Math.sin(y*0.01 + this.time)*warp*0.1, y);
+                    }
+                }
+                for(let y=oy%this.s;y<height;y+=this.s){
+                    ctx.moveTo(0,y);
+                    // Draw wavy horizontal line
+                    for(let x=0; x<width; x+=50) {
+                        ctx.lineTo(x, y + Math.cos(x*0.01 + this.time)*warp*0.1);
+                    }
+                }
+                ctx.stroke();
+            }
         }
 
-        // --- Core Loop ---
         function createExplosion(x,y,c,n){for(let i=0;i<n;i++)particles.push(new Particle(x,y,c,8));}
         
-        function updateGame(){
-            const now=Date.now(); const dt=(now-lastTime)/1000; lastTime=now;
-            fpsDisplay.innerText=`FPS: ${Math.round(1/dt)}`;
-            particles.forEach((p,i)=>{p.update();if(p.alpha<=0)particles.splice(i,1);});
-
+        function updatePhysics(dt) {
             if(!isPlaying) return;
             player.update(dt);
 
@@ -629,33 +672,72 @@
 
             // Collisions
             shards.forEach((s,i)=>{if(Math.hypot(player.pos.x-s.x,player.pos.y-s.y)<14){score+=50;energy+=15;Sound.collect();Haptics.collect();createExplosion(s.x,s.y,'#0ff',10);shards.splice(i,1);scoreDisplay.innerText=score.toLocaleString();}});
-            powerups.forEach((p,i)=>{if(Math.hypot(player.pos.x-p.x,player.pos.y-p.y)<16){score+=200;player.surgeTime=5.0;Sound.powerup();Haptics.surgeStart();createExplosion(p.x,p.y,'#39ff14',30);powerups.splice(i,1);scoreDisplay.innerText=score.toLocaleString();}});
+            powerups.forEach((p,i)=>{if(Math.hypot(player.pos.x-p.x,player.pos.y-p.y)<16){
+                score+=200;player.surgeTime=5.0;shake=10;aberration=10;Sound.powerup();Haptics.surgeStart();createExplosion(p.x,p.y,'#39ff14',30);powerups.splice(i,1);scoreDisplay.innerText=score.toLocaleString();
+            }});
             anomalies.forEach((a,i)=>{if(Math.hypot(player.pos.x-a.x,player.pos.y-a.y)<18){score+=300;energy+=22;Sound.rareCollect();Haptics.rareCollect();createExplosion(a.x,a.y,'#FFD700',25);anomalies.splice(i,1);scoreDisplay.innerText=score.toLocaleString();}});
             
             enemies.forEach((e,i)=>{
                 if(Math.hypot(player.pos.x-e.x,player.pos.y-e.y)<player.radius+e.size-3){
-                    if(player.surgeTime>0){Sound.smash();Haptics.surgeKill();createExplosion(e.x,e.y,e.color,20);enemies.splice(i,1);score+=100;scoreDisplay.innerText=score.toLocaleString();}
+                    if(player.surgeTime>0){Sound.smash();Haptics.surgeKill();shake=5;createExplosion(e.x,e.y,e.color,20);enemies.splice(i,1);score+=100;scoreDisplay.innerText=score.toLocaleString();}
                     else{gameOver("HULL BREACH");}
                 }
             });
         }
 
+        function updateGame() {
+            // Decay effects
+            if(shake > 0) shake *= 0.9;
+            if(shake < 0.5) shake = 0;
+            if(aberration > 0) aberration *= 0.9;
+            if(aberration < 0.5) aberration = 0;
+
+            particles.forEach((p,i)=>{p.update();if(p.alpha<=0)particles.splice(i,1);});
+        }
+
         function drawGame(){
-            ctx.fillStyle='rgba(5,5,5,0.25)'; ctx.fillRect(0,0,width,height);
+            // Screen Shake Transform
+            ctx.save();
+            if(shake > 0) {
+                const dx = (Math.random() - 0.5) * shake;
+                const dy = (Math.random() - 0.5) * shake;
+                ctx.translate(dx, dy);
+            }
+
+            ctx.fillStyle='rgba(5,5,5,0.25)'; ctx.fillRect(-shake, -shake, width+shake*2, height+shake*2); // Cover shake edges
             ctx.globalCompositeOperation='lighter';
+            
             grid.draw(ctx,isPlaying?player.pos:{x:0,y:0});
             particles.forEach(p=>p.draw(ctx));
+            
             if(isPlaying){
                 powerups.forEach(p=>p.draw(ctx)); shards.forEach(s=>s.draw(ctx)); anomalies.forEach(a=>a.draw(ctx));
                 player.draw(ctx); enemies.forEach(e=>e.draw(ctx));
             }
+            
+            ctx.restore(); // Undo Shake
             ctx.globalCompositeOperation='source-over';
         }
 
         function animate(){
-            if(!isPlaying && particles.length===0) return;
-            updateGame(); drawGame();
-            if(isPlaying || particles.length>0) animationId=requestAnimationFrame(animate);
+            if(!isPlaying && particles.length===0 && shake <= 0) return;
+            
+            const now = Date.now();
+            const dt = (now - lastTime) / 1000;
+            lastTime = now;
+            fpsDisplay.innerText = `FPS: ${Math.round(1/dt)}`;
+
+            // Physics Accumulator (Feature 13)
+            accumulator += dt;
+            while(accumulator >= TIME_STEP) {
+                updatePhysics(TIME_STEP);
+                accumulator -= TIME_STEP;
+            }
+            
+            updateGame(); // Visual updates (shake decay etc)
+            drawGame();
+            
+            if(isPlaying || particles.length>0 || shake > 0) animationId=requestAnimationFrame(animate);
         }
 
         init();
