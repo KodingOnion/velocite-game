@@ -515,9 +515,37 @@
             }
             update(pp){
                 if(this.color=='#ff0055'){this.x+=this.vx;this.y+=this.vy;this.angle+=0.05;}
-                else if(this.color=='#ff9900'){let dx=pp.x-this.x,dy=pp.y-this.y,d=Math.sqrt(dx*dx+dy*dy);this.vx+=(dx/d)*0.15;this.vy+=(dy/d)*0.15;
-                let m=Math.sqrt(this.vx*this.vx+this.vy*this.vy);if(m>this.speed){this.vx=(this.vx/m)*this.speed;this.vy=(this.vy/m)*this.speed;}
-                this.x+=this.vx;this.y+=this.vy;this.angle=Math.atan2(this.vy,this.vx);}
+                else if(this.color=='#ff9900'){
+                    let dx=pp.x-this.x,dy=pp.y-this.y,d=Math.sqrt(dx*dx+dy*dy);
+                    
+                    // --- CHANGED: Panic Logic ---
+                    if (player && player.surgeTime > 0) {
+                        // Steer AWAY from player
+                        this.vx -= (dx/d) * 0.2; 
+                        this.vy -= (dy/d) * 0.2;
+                        
+                        // Lower Speed Cap (Panic Speed)
+                        let panicSpeed = 1.5;
+                        let m = Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+                        if(m > panicSpeed){ this.vx=(this.vx/m)*panicSpeed; this.vy=(this.vy/m)*panicSpeed; }
+
+                        // Bounce off walls to stay in play
+                        if(this.x < 10) { this.x=10; this.vx = Math.abs(this.vx); }
+                        if(this.x > width-10) { this.x=width-10; this.vx = -Math.abs(this.vx); }
+                        if(this.y < 10) { this.y=10; this.vy = Math.abs(this.vy); }
+                        if(this.y > height-10) { this.y=height-10; this.vy = -Math.abs(this.vy); }
+
+                    } else {
+                        // Normal Chase Logic
+                        this.vx+=(dx/d)*0.15;
+                        this.vy+=(dy/d)*0.15;
+                        let m=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+                        if(m>this.speed){this.vx=(this.vx/m)*this.speed;this.vy=(this.vy/m)*this.speed;}
+                    }
+                    // ----------------------------
+
+                    this.x+=this.vx;this.y+=this.vy;this.angle=Math.atan2(this.vy,this.vx);
+                }
                 else{this.tick+=0.05;this.x+=this.vx+Math.cos(this.tick)*2.5;this.y+=this.vy+Math.sin(this.tick)*2.5;this.angle+=0.02;}
             }
             draw(ctx){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.angle);ctx.shadowBlur=10;ctx.shadowColor=this.color;ctx.strokeStyle=this.color;ctx.lineWidth=2;
@@ -535,6 +563,7 @@
             ctx.stroke();}
         }
 
+        // --- Core Loop ---
         function createExplosion(x,y,c,n){for(let i=0;i<n;i++)particles.push(new Particle(x,y,c,8));}
         
         function updateGame(){
