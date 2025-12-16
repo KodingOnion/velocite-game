@@ -56,15 +56,15 @@
         .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
         .glass-panel { background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); }
         
-        /* New Cyber Input Styles */
+        /* New Cyber Input Styles - Resized */
         .cyber-input {
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid #333;
             border-left: 4px solid #0ff; /* Neon Accent */
             color: #fff;
             font-family: 'Space Mono', monospace;
-            font-size: 1.5rem;
-            padding: 1rem;
+            font-size: 1.1rem; /* Smaller font */
+            padding: 0.75rem; /* Smaller padding */
             width: 100%;
             text-align: center;
             text-transform: uppercase;
@@ -79,15 +79,15 @@
         }
         .cyber-input::placeholder {
             color: rgba(255, 255, 255, 0.2);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
-        /* New Cyber Button Styles */
+        /* New Cyber Button Styles - Resized */
         .cyber-btn {
             background: transparent;
             border: 1px solid rgba(0, 255, 255, 0.3);
             color: #0ff;
-            padding: 1rem;
+            padding: 0.75rem; /* Smaller padding */
             width: 100%;
             font-family: 'Space Mono', monospace;
             font-weight: bold;
@@ -164,8 +164,8 @@
         <div id="game-over-screen" class="absolute inset-0 flex flex-col items-center justify-center text-center transition-opacity duration-300 hidden bg-black/80 backdrop-blur-sm pointer-events-auto px-4">
             <h2 class="text-4xl md:text-6xl font-bold text-red-500 mb-4 tracking-tighter neon-text">SYSTEM HALTED</h2>
             
-            <!-- Score Card Panel -->
-            <div class="bg-black/80 border border-white/10 p-8 mb-6 flex flex-col items-center max-w-sm w-full backdrop-blur-md shadow-2xl">
+            <!-- Score Card Panel (Resized to max-w-xs and p-6) -->
+            <div class="bg-black/80 border border-white/10 p-6 mb-6 flex flex-col items-center max-w-xs w-full backdrop-blur-md shadow-2xl">
                 <div class="text-white/40 text-xs tracking-[0.2em] uppercase mb-2">Final Efficiency</div>
                 <div id="final-score" class="text-5xl font-bold text-white mb-8 neon-text">0</div>
 
@@ -194,7 +194,7 @@
         <!-- Bottom Stats -->
         <div class="flex justify-between w-full text-white/20 text-[10px] md:text-xs tracking-widest uppercase">
              <div id="fps-display">FPS: 60</div>
-             <div>Ver 2.5 // Online</div>
+             <div>Ver 2.6 // Polished</div>
         </div>
     </div>
 
@@ -484,6 +484,14 @@
             gameOverScreen.classList.add('hidden');
             gameOverScreen.classList.remove('visible');
             ctx.fillStyle='#050505'; ctx.fillRect(0,0,width,height);
+            
+            // --- FIX: Reset Score & Energy UI ---
+            scoreDisplay.innerText = "0";
+            energyFill.style.width = "100%";
+            energyFill.style.backgroundColor = '#0ff';
+            energyFill.style.boxShadow = '0 0 10px #0ff';
+            energyLabel.innerText = "ENTROPY STABILITY";
+            energyLabel.style.color = "#0ff";
         }
 
         function showLeaderboard() {
