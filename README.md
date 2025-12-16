@@ -2,6 +2,9 @@
 
 A minimalist, high-speed physics survival game built in vanilla HTML5 Canvas.
 
+## 🌍 Link
+The game is available at `velocite.portnoi.tech`
+
 ## 🎮 How to Play
 * **Objective:** Survive as long as possible while your **Entropy (Energy)** drains constantly.
 * **Move:** Your cursor/finger controls the Core. It has weight and inertia.
